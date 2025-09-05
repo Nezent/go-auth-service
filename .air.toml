@@ -1,0 +1,30 @@
+# Air config for Auth Service
+
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -o ./tmp/main ./cmd/auth-service"
+bin = "tmp/main"
+full_bin = "./tmp/main"
+
+# Watch only Go files
+include_ext = ["go"]
+exclude_dir = ["tmp", "vendor"]
+
+[log]
+time = true
+main_only = false
+silent = false
+
+[color]
+main = "cyan"
+build = "yellow"
+runner = "green"
+
+[misc]
+clean_on_exit = true
+
+[screen]
+clear_on_rebuild = true
+keep_scroll = true

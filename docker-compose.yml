@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    environment:
+      # Override specific configs for container networking
+      - POSTGRES_HOST=db
+      # - REDIS_HOST=redis
+    depends_on:
+      - db
+      # - redis
+
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis_data:/data
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  # redis_data:
